@@ -10,7 +10,7 @@ import (
 var _ service.HelloService = (*HelloServiceClient)(nil)
 
 func NewHelloServiceClient(network, address string) (*HelloServiceClient, error) {
-	client, err := rpc.Dial("tcp", "localhost:1234")
+	client, err := rpc.Dial(network, address)
 	if err != nil {
 		return nil, err
 	}
