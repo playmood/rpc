@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package hello;
+option go_package="github.com/playmood/rpc/grpc/simple/server/pb";
+
+
+// 引入rpc
+service HelloService {
+  rpc Hello(Request)  returns(Response);
+}
+
+message Request {
+  string value = 1;
+}
+
+message Response {
+  string value = 1;
+}
