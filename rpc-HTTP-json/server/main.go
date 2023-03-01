@@ -21,6 +21,11 @@ func (s *HelloService) Hello(request string, response *string) error {
 	return nil
 }
 
+func (s *HelloService) Calc(request service.Sum, response *int) error {
+	*response = request.A + request.B
+	return nil
+}
+
 func NewRPCReadWriteCloseFromHTTP(writer http.ResponseWriter, request *http.Request) *RPCReadWriteCloser {
 	return &RPCReadWriteCloser{writer, request.Body}
 }
