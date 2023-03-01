@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package hello;
-option go_package="github.com/playmood/rpc/pb";
+option go_package="github.com/playmood/rpc/protobuf/pb";
 
 message String {
   string value = 1;
