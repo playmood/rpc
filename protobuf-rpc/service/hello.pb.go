@@ -114,6 +114,197 @@ func (x *Response) GetValue() string {
 	return ""
 }
 
+type ProtobufEventHeader struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id      string            `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Headers map[string]string `protobuf:"bytes,2,rep,name=headers,proto3" json:"headers,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+}
+
+func (x *ProtobufEventHeader) Reset() {
+	*x = ProtobufEventHeader{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_hello_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ProtobufEventHeader) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ProtobufEventHeader) ProtoMessage() {}
+
+func (x *ProtobufEventHeader) ProtoReflect() protoreflect.Message {
+	mi := &file_hello_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ProtobufEventHeader.ProtoReflect.Descriptor instead.
+func (*ProtobufEventHeader) Descriptor() ([]byte, []int) {
+	return file_hello_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ProtobufEventHeader) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *ProtobufEventHeader) GetHeaders() map[string]string {
+	if x != nil {
+		return x.Headers
+	}
+	return nil
+}
+
+type JSONEventHeader struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id      string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Headers []byte `protobuf:"bytes,2,opt,name=headers,proto3" json:"headers,omitempty"`
+}
+
+func (x *JSONEventHeader) Reset() {
+	*x = JSONEventHeader{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_hello_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *JSONEventHeader) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*JSONEventHeader) ProtoMessage() {}
+
+func (x *JSONEventHeader) ProtoReflect() protoreflect.Message {
+	mi := &file_hello_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use JSONEventHeader.ProtoReflect.Descriptor instead.
+func (*JSONEventHeader) Descriptor() ([]byte, []int) {
+	return file_hello_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *JSONEventHeader) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *JSONEventHeader) GetHeaders() []byte {
+	if x != nil {
+		return x.Headers
+	}
+	return nil
+}
+
+type Event struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Header:
+	//
+	//	*Event_Protobuf
+	//	*Event_Json
+	Header isEvent_Header `protobuf_oneof:"header"`
+}
+
+func (x *Event) Reset() {
+	*x = Event{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_hello_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Event) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Event) ProtoMessage() {}
+
+func (x *Event) ProtoReflect() protoreflect.Message {
+	mi := &file_hello_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Event.ProtoReflect.Descriptor instead.
+func (*Event) Descriptor() ([]byte, []int) {
+	return file_hello_proto_rawDescGZIP(), []int{4}
+}
+
+func (m *Event) GetHeader() isEvent_Header {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (x *Event) GetProtobuf() *ProtobufEventHeader {
+	if x, ok := x.GetHeader().(*Event_Protobuf); ok {
+		return x.Protobuf
+	}
+	return nil
+}
+
+func (x *Event) GetJson() *JSONEventHeader {
+	if x, ok := x.GetHeader().(*Event_Json); ok {
+		return x.Json
+	}
+	return nil
+}
+
+type isEvent_Header interface {
+	isEvent_Header()
+}
+
+type Event_Protobuf struct {
+	Protobuf *ProtobufEventHeader `protobuf:"bytes,1,opt,name=protobuf,proto3,oneof"`
+}
+
+type Event_Json struct {
+	Json *JSONEventHeader `protobuf:"bytes,2,opt,name=json,proto3,oneof"`
+}
+
+func (*Event_Protobuf) isEvent_Header() {}
+
+func (*Event_Json) isEvent_Header() {}
+
 var File_hello_proto protoreflect.FileDescriptor
 
 var file_hello_proto_rawDesc = []byte{
@@ -122,10 +313,32 @@ var file_hello_proto_rawDesc = []byte{
 	0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
 	0x76, 0x61, 0x6c, 0x75, 0x65, 0x22, 0x20, 0x0a, 0x08, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
 	0x65, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x42, 0x2e, 0x5a, 0x2c, 0x67, 0x69, 0x74, 0x68, 0x75,
-	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x70, 0x6c, 0x61, 0x79, 0x6d, 0x6f, 0x6f, 0x64, 0x2f, 0x72,
-	0x70, 0x63, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2d, 0x72, 0x70, 0x63, 0x2f,
-	0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x22, 0xa4, 0x01, 0x0a, 0x13, 0x50, 0x72, 0x6f, 0x74,
+	0x6f, 0x62, 0x75, 0x66, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x12,
+	0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12,
+	0x41, 0x0a, 0x07, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b,
+	0x32, 0x27, 0x2e, 0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x2e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
+	0x66, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x2e, 0x48, 0x65, 0x61,
+	0x64, 0x65, 0x72, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x07, 0x68, 0x65, 0x61, 0x64, 0x65,
+	0x72, 0x73, 0x1a, 0x3a, 0x0a, 0x0c, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x73, 0x45, 0x6e, 0x74,
+	0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x3b,
+	0x0a, 0x0f, 0x4a, 0x53, 0x4f, 0x4e, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x48, 0x65, 0x61, 0x64, 0x65,
+	0x72, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69,
+	0x64, 0x12, 0x18, 0x0a, 0x07, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x73, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x0c, 0x52, 0x07, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x73, 0x22, 0x79, 0x0a, 0x05, 0x45,
+	0x76, 0x65, 0x6e, 0x74, 0x12, 0x38, 0x0a, 0x08, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x2e, 0x50,
+	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x48, 0x65, 0x61, 0x64,
+	0x65, 0x72, 0x48, 0x00, 0x52, 0x08, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x12, 0x2c,
+	0x0a, 0x04, 0x6a, 0x73, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x68,
+	0x65, 0x6c, 0x6c, 0x6f, 0x2e, 0x4a, 0x53, 0x4f, 0x4e, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x48, 0x65,
+	0x61, 0x64, 0x65, 0x72, 0x48, 0x00, 0x52, 0x04, 0x6a, 0x73, 0x6f, 0x6e, 0x42, 0x08, 0x0a, 0x06,
+	0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x42, 0x2e, 0x5a, 0x2c, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62,
+	0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x70, 0x6c, 0x61, 0x79, 0x6d, 0x6f, 0x6f, 0x64, 0x2f, 0x72, 0x70,
+	0x63, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2d, 0x72, 0x70, 0x63, 0x2f, 0x73,
+	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -140,17 +353,24 @@ func file_hello_proto_rawDescGZIP() []byte {
 	return file_hello_proto_rawDescData
 }
 
-var file_hello_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_hello_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_hello_proto_goTypes = []interface{}{
-	(*Request)(nil),  // 0: hello.Request
-	(*Response)(nil), // 1: hello.Response
+	(*Request)(nil),             // 0: hello.Request
+	(*Response)(nil),            // 1: hello.Response
+	(*ProtobufEventHeader)(nil), // 2: hello.ProtobufEventHeader
+	(*JSONEventHeader)(nil),     // 3: hello.JSONEventHeader
+	(*Event)(nil),               // 4: hello.Event
+	nil,                         // 5: hello.ProtobufEventHeader.HeadersEntry
 }
 var file_hello_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	5, // 0: hello.ProtobufEventHeader.headers:type_name -> hello.ProtobufEventHeader.HeadersEntry
+	2, // 1: hello.Event.protobuf:type_name -> hello.ProtobufEventHeader
+	3, // 2: hello.Event.json:type_name -> hello.JSONEventHeader
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_hello_proto_init() }
@@ -183,6 +403,46 @@ func file_hello_proto_init() {
 				return nil
 			}
 		}
+		file_hello_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ProtobufEventHeader); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_hello_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*JSONEventHeader); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_hello_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Event); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+	}
+	file_hello_proto_msgTypes[4].OneofWrappers = []interface{}{
+		(*Event_Protobuf)(nil),
+		(*Event_Json)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -190,7 +450,7 @@ func file_hello_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_hello_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
