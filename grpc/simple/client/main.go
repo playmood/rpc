@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/playmood/rpc/grpc/middleware/server"
+	client2 "github.com/playmood/rpc/grpc/middleware/client"
 	"github.com/playmood/rpc/grpc/simple/server/pb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
@@ -14,7 +14,8 @@ import (
 
 func main() {
 	// grpc为我们生成一个客户端调用服务端的SDK
-	conn, err := grpc.DialContext(context.Background(), "127.0.0.1:1234", grpc.WithInsecure())
+	crendential := client2.NewAuthentication("admin", "1234567890")
+	conn, err := grpc.DialContext(context.Background(), "127.0.0.1:1234", grpc.WithInsecure(), grpc.WithPerRPCCredentials(crendential))
 	if err != nil {
 		panic(err)
 	}
@@ -22,8 +23,9 @@ func main() {
 
 	// request response
 	// 添加认证凭证信息
-	crendential := server.NewClientCredential("admin", "1234567890")
-	ctx := metadata.NewOutgoingContext(context.Background(), crendential)
+	//crendential := server.NewClientCredential("admin", "1234567890")
+	//ctx := metadata.NewOutgoingContext(context.Background(), crendential)
+	ctx := metadata.NewOutgoingContext(context.Background(), metadata.Pairs())
 	resp, err := client.Hello(ctx, &pb.Request{Value: "Alice"})
 	if err != nil {
 		panic(err)
