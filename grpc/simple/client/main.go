@@ -3,8 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/playmood/rpc/grpc/middleware/server"
 	"github.com/playmood/rpc/grpc/simple/server/pb"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/metadata"
 	"io"
 	"log"
 	"time"
@@ -19,14 +21,17 @@ func main() {
 	client := pb.NewHelloServiceClient(conn)
 
 	// request response
-	resp, err := client.Hello(context.Background(), &pb.Request{Value: "Alice"})
+	// 添加认证凭证信息
+	crendential := server.NewClientCredential("admin", "1234567890")
+	ctx := metadata.NewOutgoingContext(context.Background(), crendential)
+	resp, err := client.Hello(ctx, &pb.Request{Value: "Alice"})
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(resp)
 
 	// stream
-	stream, err := client.Channel(context.Background())
+	stream, err := client.Channel(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
