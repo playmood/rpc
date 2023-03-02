@@ -7,6 +7,7 @@ option go_package="github.com/playmood/rpc/grpc/simple/server/pb";
 // 引入rpc
 service HelloService {
   rpc Hello(Request)  returns(Response);
+  rpc Channel (stream Request) returns (stream Response) {}
 }
 
 message Request {

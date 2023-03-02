@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/playmood/rpc/grpc/simple/server/pb"
 	"google.golang.org/grpc"
+	"io"
 	"log"
 	"net"
 )
@@ -21,6 +22,33 @@ type HelloServiceServer struct {
 
 func (s *HelloServiceServer) Hello(ctx context.Context, req *pb.Request) (*pb.Response, error) {
 	return &pb.Response{Value: fmt.Sprintf("hello, %s", req.Value)}, nil
+}
+
+func (s *HelloServiceServer) Channel(stream pb.HelloService_ChannelServer) error {
+	// 处理单个连接 放在goroutine中跑的 天生高并发
+	for {
+		// 接收请求
+		req, err := stream.Recv()
+		if err != nil {
+			// 当前客户端退出
+			if err == io.EOF {
+				log.Println("client closed")
+				return nil
+			}
+			return err
+		}
+
+		resp := &pb.Response{Value: fmt.Sprintf("hello %s", req.Value)}
+		// 响应请求
+		err = stream.Send(resp)
+		if err != nil {
+			if err == io.EOF {
+				log.Println("client closed")
+				return nil
+			}
+			return err
+		}
+	}
 }
 
 func main() {
